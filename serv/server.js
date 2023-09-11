@@ -2,9 +2,16 @@
 const config = require("../config.js");
 const express = require("express");
 const app = express();
+const passport = require("passport");
+const router = require("./routes/router.js");
+
+//Google Middleware
+require("./middlewares/google.js");
 
 // Global middlewares
 app.use(express.json());
+app.use(passport.initialize());
+app.use(router);
 
 
 // Start the server and listen on the specified port
