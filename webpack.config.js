@@ -35,12 +35,6 @@ module.exports = {
         alias: {
             "ui": cfg.SRC + "/ui/ui.js",
             "utils": cfg.SRC + "/utils",
-            "context": cfg.SRC + "/views/_context.jsx",
-            
-            // programming in mobile apps
-            "eruda": isProduction ? 
-                cfg.SRC + "/utils/__eruda-fake.js" : // remove eruda in production
-                "eruda",
         },
         extensions: ["*", ".js", ".jsx"]
     },
@@ -48,7 +42,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/i,
+                test: /\.js$/i,
                 loader: 'babel-loader',
             },
             {
