@@ -16,7 +16,7 @@
     "socket.io": "^4.7.2",
     "sqlite3": "^5.0.6"
   },
-  "devDependencies": {
+  "buildDependencies": {
     "@babel/core": "^7.22.1",
     "@babel/preset-env": "^7.22.2",
     "autoprefixer": "^10.4.14",
