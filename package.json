@@ -9,7 +9,7 @@
   "dependencies": {
     "express": "^4.18.2"
   },
-  "devDependencies": {
+  "buildDependencies": {
     "@babel/core": "^7.22.1",
     "@babel/preset-env": "^7.22.2",
     "autoprefixer": "^10.4.14",
