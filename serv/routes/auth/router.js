@@ -3,15 +3,23 @@ const google = require("./google/router.js");
 const facebook = require("./facebook/route.js");
 const passport = require("passport");
 
+router.get( '/google/callback',
+    passport.authenticate( 'google' , {
+        successRedirect: '/auth/success',
+        failureRedirect: '/auth/failure'    
+}));
+
 router.use('/google',
   passport.authenticate('google', { scope:
       [ 'email', 'profile' ] }
 ), google);
 
-router.get( '/auth/google/callback',
-    passport.authenticate( 'google', {
-        successRedirect: '/auth/google/success',
-        failureRedirect: '/auth/google/failure'
+
+
+router.get( '/facebook/callback',
+    passport.authenticate( 'facebook', {
+        successRedirect: '/auth/success',
+        failureRedirect: '/auth/failure'
 }));
 
 router.use('/facebook',
@@ -19,10 +27,5 @@ router.use('/facebook',
       [ 'gaming_profile'] }
 ), facebook);
 
-router.get( '/auth/facebook/callback',
-    passport.authenticate( 'facebook', {
-        successRedirect: '/auth/facebook/success',
-        failureRedirect: '/auth/facebook/failure'
-}));
 
 module.exports = router;

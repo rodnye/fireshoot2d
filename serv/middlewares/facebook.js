@@ -13,5 +13,7 @@ passport.use("facebook" , new FacebookStrategy({
       return cb(err, user);
     });*/
     console.log(accessToken , profile);
+
+    cb(null , profile);
   }
 ));

@@ -14,5 +14,6 @@ passport.use("google" , new GoogleStrategy({
       return done(err, user);
     });*/
     console.log(accessToken , profile.id);
+    done(null , profile);
   }
 ));
