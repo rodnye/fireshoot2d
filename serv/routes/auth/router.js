@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const google = require("./google/router.js");
+const facebook = require("./facebook/route.js");
 const passport = require("passport");
 
 router.use('/google',
@@ -13,5 +14,15 @@ router.get( '/auth/google/callback',
         failureRedirect: '/auth/google/failure'
 }));
 
+router.use('/facebook',
+  passport.authenticate('facebook', { scope:
+      [ 'gaming_profile'] }
+), facebook);
+
+router.get( '/auth/facebook/callback',
+    passport.authenticate( 'facebook', {
+        successRedirect: '/auth/facebook/success',
+        failureRedirect: '/auth/facebook/failure'
+}));
 
 module.exports = router;

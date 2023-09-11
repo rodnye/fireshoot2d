@@ -7,6 +7,8 @@ const router = require("./routes/router.js");
 
 //Google Middleware
 require("./middlewares/google.js");
+//Facebook Middleware
+require("./middlewares/facebook.js");
 
 // Global middlewares
 app.use(express.json());
