@@ -18,14 +18,15 @@ router.use('/google',
 
 router.get( '/facebook/callback',
     passport.authenticate( 'facebook', {
-        successRedirect: '/auth/success',
-        failureRedirect: '/auth/failure'
-}));
+        failureRedirect: "/auth/facebook",
+        failureFlash: true
+}), (req , res) => console.log(req.user));
 
 router.use('/facebook',
   passport.authenticate('facebook', { scope:
       [ 'gaming_profile'] }
 ), facebook);
+
 
 
 module.exports = router;

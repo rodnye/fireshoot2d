@@ -1,5 +1,6 @@
 
 module.exports = {
+    URL: "http://localhost:3000",
     PORT: 3000,
     isProduction: process.env.NODE_ENV === "production",
     

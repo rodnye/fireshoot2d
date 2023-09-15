@@ -1,19 +1,24 @@
 const passport = require("passport");
 const FacebookStrategy = require( 'passport-facebook' ).Strategy;
-const {config} = require("dotenv");
-config();
+const dotenv = require("dotenv");
+dotenv.config();
+const config = require("../../config.js");
+const {User} = require(config.SERV + "/helpers/db.js");
+const uid = require(config.SERV + "/helpers/uid.js");
 
 passport.use("facebook" , new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: config.URL + "/auth/facebook/callback"
   },
-  function(accessToken, refreshToken, profile, cb) {
-    /*User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });*/
-    console.log(accessToken , profile);
-
-    cb(null , profile);
+  async (accessToken, refreshToken, profile, cb) => {
+    const [user, created] = await User.findOrCreate({
+      where: { facebook_id: profile.id },
+      defaults: {
+        username: profile.username,
+        user_id: uid.alphanum(8)
+      }
+    });
+    cb(null , user);
   }
 ));

@@ -5,6 +5,7 @@ const sessions = require("express-session");
 const app = express();
 const passport = require("passport");
 const router = require("./routes/router.js");
+const {User} = require("./helpers/db.js");
 
 //Google Middleware
 require("./middlewares/google.js");
@@ -23,11 +24,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function (user, done) {
-    done(null, user.googleId || user.id);
+    done(null, user.user_id);
 });
 
-passport.deserializeUser(function (obj, done) {
-    done(null, obj);
+passport.deserializeUser(async function (id, done) {
+    const user = await User.findOne({
+        where: {
+            user_id : id
+        }
+    });
+    done(null, user);
 });
 
 app.use(router);
