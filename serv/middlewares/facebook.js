@@ -15,10 +15,10 @@ passport.use("facebook" , new FacebookStrategy({
     const [user, created] = await User.findOrCreate({
       where: { facebook_id: profile.id },
       defaults: {
-        username: profile.username,
+        username: profile.username || profile.displayName,
         user_id: uid.alphanum(8)
       }
     });
-    cb(null , user);
+    cb(null , user || created);
   }
 ));

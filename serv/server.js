@@ -5,7 +5,8 @@ const sessions = require("express-session");
 const app = express();
 const passport = require("passport");
 const router = require("./routes/router.js");
-const {User} = require("./helpers/db.js");
+const { User } = require("./helpers/db.js");
+var SQLiteStore = require('connect-sqlite3')(sessions);
 
 //Google Middleware
 require("./middlewares/google.js");
@@ -14,15 +15,16 @@ require("./middlewares/facebook.js");
 
 // Global middlewares
 app.use(express.json());
+// Session Store
 app.use(sessions({
-    secret: "supersecretkey",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    store: new SQLiteStore,
+    secret: 'your secret',
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 1 week
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Serialize-Deserialize Users
 passport.serializeUser(function (user, done) {
     done(null, user.user_id);
 });
@@ -30,7 +32,7 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(async function (id, done) {
     const user = await User.findOne({
         where: {
-            user_id : id
+            user_id: id
         }
     });
     done(null, user);

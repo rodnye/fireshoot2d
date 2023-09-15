@@ -16,10 +16,11 @@ passport.use("google" , new GoogleStrategy({
     const [user, created] = await User.findOrCreate({
       where: { google_id: profile.id },
       defaults: {
-        username: profile.username,
+        username: profile.displayName || profile.given_name,
         user_id: uid.alphanum(8)
       }
     });
-    done(null , user);
+
+    done(null , user || created);
   }
 ));

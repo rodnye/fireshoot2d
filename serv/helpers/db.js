@@ -8,7 +8,8 @@ const uid = require("./uid.js");
  **********************/
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: config.DB + '/db.sqlite'
+    storage: config.DB + '/db.sqlite',
+    logging: false
 });
 
 (async () => {
