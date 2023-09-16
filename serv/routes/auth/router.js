@@ -10,10 +10,11 @@ router.get('/google/callback',
         failureRedirect: '/auth/failure',
         failureFlash: true
     }), (req, res) => {
-        return res.json({
+        /*return res.json({
             status: true,
             data: jwt.generate(req.user.user_id)
-        });
+        });*/
+        return res.redirect('/game');
     });
 
 router.use('/google',
@@ -30,10 +31,11 @@ router.get('/facebook/callback',
         failureRedirect: "/auth/facebook",
         failureFlash: true
     }), (req, res) => {
-        return res.json({
+        /*return res.json({
             status: true,
             data: jwt.generate(req.user.user_id)
-        });
+        });*/
+        return res.redirect('/game');
     });
 
 router.use('/facebook',
@@ -42,7 +44,6 @@ router.use('/facebook',
             ['gaming_profile']
     }
     ), facebook);
-
 
 
 module.exports = router;

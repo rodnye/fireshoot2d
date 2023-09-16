@@ -3,6 +3,8 @@ const config = require("../config.js");
 const express = require("express");
 const sessions = require("express-session");
 const app = express();
+const server = require("http").Server(app);
+const fs = require("fs");
 const passport = require("passport");
 const router = require("./routes/router.js");
 const { User } = require("./helpers/db.js");
@@ -16,11 +18,12 @@ require("./middlewares/facebook.js");
 // Global middlewares
 app.use(express.json());
 // Session Store
-app.use(sessions({
+const sessionMiddleware = sessions({
     store: new SQLiteStore,
-    secret: 'your secret',
+    secret: 'SECRET_cOOKIE',
     cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 1 week
-}));
+})
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -40,8 +43,17 @@ passport.deserializeUser(async function (id, done) {
 
 app.use(router);
 
+const io = require("socket.io")(server , {
+    cors : {
+        origin : "*",
+        method : ["POST" , "GET"]
+    }
+}).use(function(socket, next){
+    // Wrap the express middleware
+    sessionMiddleware(socket.request, {}, next);
+});
 
-
+require("./engine/socket.js")(io);
 
 // Start the server and listen on the specified port
 app.listen(config.PORT, () => {
