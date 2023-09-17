@@ -41,14 +41,27 @@ passport.deserializeUser(async function (id, done) {
     done(null, user);
 });
 
+app.use(function (req, res, next) {
+    if (req.session.passport.user == null) {// if user is not logged-in redirect back to login page 
+        res.redirect('/auth');
+    } else if(!req.url.match("/game") && req.session.passport.user != null){
+        res.redirect("/game");
+    }
+    else {
+        next();
+    }
+
+});
+
+
 app.use(router);
 
-const io = require("socket.io")(server , {
-    cors : {
-        origin : "*",
-        method : ["POST" , "GET"]
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*",
+        method: ["POST", "GET"]
     }
-}).use(function(socket, next){
+}).use(function (socket, next) {
     // Wrap the express middleware
     sessionMiddleware(socket.request, {}, next);
 });

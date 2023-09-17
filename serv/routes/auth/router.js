@@ -1,6 +1,4 @@
 const router = require("express").Router();
-const google = require("./google/router.js");
-const facebook = require("./facebook/route.js");
 const passport = require("passport");
 const config = require("../../../config.js");
 const jwt = require(config.HELPERS + "/jwt.js");
@@ -22,7 +20,7 @@ router.use('/google',
         scope:
             ['profile']
     }
-    ), google);
+    ));
 
 
 
@@ -43,7 +41,7 @@ router.use('/facebook',
         scope:
             ['gaming_profile']
     }
-    ), facebook);
+    ));
 
 
 module.exports = router;
