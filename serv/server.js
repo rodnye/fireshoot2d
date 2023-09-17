@@ -78,13 +78,33 @@ app.listen(config.PORT, () => {
 // Serve static pages
 //
 if (!config.isProduction) {
+
     // Development mode - Use Webpack server for serving static files
     const webpackRouter = require('./webpack-router');
+    const webpackCompiler = webpackRouter.compiler;
+    
     app.use("/", webpackRouter);
+
+    for (let page of config.pages) {
+        app.get(`/${page}`, (req, res) => { 
+            webpackCompiler.outputFileSystem.readFile(`./dist/${page}.html`, (err, result) => {
+                if (err) console.log(err);
+                res.set("content-type", "text/html");
+                res.send(result); 
+            })
+        });
+    }
+
     console.log("Using Webpack server for development mode...");
+
 }
 else {
     // Production mode - Use static server for serving static files
-    app.use("/", express.static(config.DIST));
+    app.use("/public", express.static(config.DIST + "/public"));
+
+    for (let page of config.pages) {
+        app.get(`/${page}`, (req, res) => res.sendFile(path.join(config.DIST, page + ".html")))
+    }
+
     console.log("Using static server for production mode...");
 }
