@@ -15,6 +15,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 // plugin
 webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 const compiler = webpack(webpackConfig);
+router.compiler = compiler;
 
 // add to router
 router.use(webpackDevMiddleware(compiler, {

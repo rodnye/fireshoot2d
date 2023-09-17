@@ -4,37 +4,56 @@ const path = require('path');
 const isProduction = process.env.NODE_ENV == 'production';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+module.exports = { 
 
-module.exports = {
-    // main file
-    entry: path.join(cfg.SRC, 'index.js'),
-    mode: process.env.NODE_ENV, // production or development
-    
-    // main export file
-    output: {
-        path: cfg.DIST,
-        filename: "bundle.js",
-    },
-    
-    // if start a dev server
+    // main files
+    entry: cfg.pages.reduce((config, page) => {
+        config[page] = `./src/pages/${page}/index.js`;
+        return config;
+    }, {}),
+
+    // production or development
+    mode: process.env.NODE_ENV, 
+
+    // start a dev server
     devServer: {
         contentBase: cfg.DIST,
         port: cfg.PORT,
         host: 'localhost',
     },
     
+
+    optimization: {
+        splitChunks: {
+          chunks: "all",
+        },
+    },
+
+    // main export file
+    output: {
+        path: cfg.DIST,
+        filename: "public/[name].js",
+    }, 
+    
     // html export
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.join(cfg.PUBLIC, 'index.html'),
-        }),
-    ],
+    plugins: [].concat(
+        cfg.pages.map(
+          (page) =>
+            new HtmlWebpackPlugin({
+              template: "./public/index.html",
+              publicPath: "/",
+              filename: `${page}.html`,
+              chunks: [page],
+            })
+        )
+      ),
     
     resolve: {
         // alias imports
         alias: {
             "ui": cfg.SRC + "/ui/ui.js",
             "utils": cfg.SRC + "/utils",
+            "styles": cfg.SRC + "/styles",
         },
         extensions: ["*", ".js", ".jsx"]
     },
