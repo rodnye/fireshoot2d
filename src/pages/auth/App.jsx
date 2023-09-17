@@ -1,6 +1,7 @@
 
+
 export default function App () {
     return (
-        <div>ggg</div>
+        <div> page/auth </div>
     )
 }
