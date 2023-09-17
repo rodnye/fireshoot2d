@@ -49,8 +49,10 @@ class Players {
             player.s.to(player.m).broadcast("connected" , player.name);
         } else {
             if(this.players[player.name].m != player.m) {
+                player.s.to(this.players[player.name].m).broadcast("disconnected" , player.name);
                 player.s.leave(this.players[player.name].m);
-                player.s.join(player.m)
+                player.s.join(player.m);
+                player.s.to(player.m).broadcast("connected" , player.name);
             }
             this.players[player.name] = {
                 x: player.x ,
