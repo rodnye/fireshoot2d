@@ -14,5 +14,11 @@ module.exports = {
     TOKEN: {
         secret: "DAMN_A_SECRET_KEY",
         expire: "24h"
+    },
+    START_POS: {
+        x: 50,
+        y: 50,
+        a: 0,
+        m: "m_1"
     }
 };
