@@ -7,7 +7,7 @@ const jwt = require(config.HELPERS + "/jwt.js");
 
 router.get('/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/auth/failure',
+        failureRedirect: '/auth',
         failureFlash: true
     }), (req, res) => {
         /*return res.json({
@@ -28,7 +28,7 @@ router.use('/google',
 
 router.get('/facebook/callback',
     passport.authenticate('facebook', {
-        failureRedirect: "/auth/facebook",
+        failureRedirect: "/auth",
         failureFlash: true
     }), (req, res) => {
         /*return res.json({

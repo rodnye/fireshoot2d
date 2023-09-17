@@ -1,6 +1,7 @@
 const config = require("../../config.js");
 const { Sequelize, Model, DataTypes, Op } = require("sequelize");
 const UserModel = require("./models/user.js");
+const PjModel = require("./models/pj.js");
 const uid = require("./uid.js");
 
 /**********************
@@ -25,7 +26,7 @@ const sequelize = new Sequelize({
  *********************/
 class User extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel" , "allowedCashiers"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -66,7 +67,54 @@ User.init(
     await User.sync();
 })();
 
+/*********************
+ *    PJ Model DB    *
+ *********************/
+class Pj extends Model {
+    getData() {
+        const rows = ["user_id", "name", "acclevel"];
+        let ret = {};
+        for (let row of rows) {
+            if (this[row]) {
+                try {
+                    ret[row] = JSON.parse(this[row]);
+                } catch (err) {
+                    ret[row] = this[row];
+                }
+            }
+        }
+        return ret;
+    }
+
+    async setData(obj) {
+        let parsedObj = {};
+        for (let o in obj) {
+            if (this[o] == undefined) continue;
+            parsedObj[o] = (typeof (obj) === "object" ? JSON.stringify(obj[o]) : obj[o]);
+        }
+        try {
+            await this.update(parsedObj);
+            return true;
+        } catch (err) {
+            console.err(err);
+            return false;
+        }
+    }
+}
+
+Pj.init(
+    PjModel(DataTypes),
+    {
+        sequelize
+    }
+);
+
+(async () => {
+    await Pj.sync();
+})();
+
 module.exports = {
     User,
+    Pj,
     Op
 };
