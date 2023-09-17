@@ -6,6 +6,7 @@
     "build": "webpack --mode=production --node-env=production"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.11.1",
     "bcryptjs": "^2.4.3",
     "connect-sqlite3": "^0.9.13",
     "dotenv": "^8.6.0",
@@ -20,7 +21,7 @@
     "socket.io": "^4.7.2",
     "sqlite3": "^5.0.6"
   },
-  "devDependencies": {
+  "buildDependencies": {
     "@babel/core": "^7.22.1",
     "@babel/preset-env": "^7.22.2",
     "@babel/preset-react": "^7.22.5",
