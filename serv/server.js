@@ -42,14 +42,15 @@ passport.deserializeUser(async function (id, done) {
 });
 
 app.use(function (req, res, next) {
+    /* @TODO - fix pages redirect
+    
     if (!req.url.match("/auth") && (!req.session || !req.session.passport || !req.session.passport.user)) {// if user is not logged-in redirect back to login page 
         res.redirect('/auth');
     } else if(!req.url.match("/game") && (req.session && req.session.passport && req.session.passport.user)){
         res.redirect("/game");
     }
-    else {
-        next();
-    }
+    */
+    next();
 
 });
 
