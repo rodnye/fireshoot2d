@@ -54,6 +54,7 @@ module.exports = {
             "ui": cfg.SRC + "/ui/ui.js",
             "utils": cfg.SRC + "/utils",
             "styles": cfg.SRC + "/styles",
+            "assets": cfg.SRC + "/assets",
         },
         extensions: ["*", ".js", ".jsx"]
     },
