@@ -49,13 +49,8 @@ app.use(function (req, res, next) {
     } else if (!req.url.match("/game") && (req.session && req.session.passport && req.session.passport.user)) {
         res.redirect("/game");
     }
-<<<<<<< HEAD
-    next();
-
-=======
     */
     next();
->>>>>>> fc4f98c232d8cafa29c0e0768755b5e169b95af3
 
 });
 
@@ -89,6 +84,14 @@ if (!config.isProduction) {
     const webpackRouter = require('./webpack-router');
     const webpackCompiler = webpackRouter.compiler;
     
+    app.use("/", (req, res, next) => {
+        if (!req.url.endsWith(".html")) return next();
+        
+        // reject statics html
+        res.status(404);
+        res.set('content-type', 'text/plain');
+        res.send('Cannot GET ' + req.url);
+    });
     app.use("/", webpackRouter);
 
     for (let page of config.pages) {
@@ -109,7 +112,7 @@ else {
     app.use("/public", express.static(config.DIST + "/public"));
 
     for (let page of config.pages) {
-        app.get(`/${page}`, (req, res) => res.sendFile(path.join(config.DIST, page + ".html")))
+        app.get(`/${page}`, (req, res) => res.sendFile(config.DIST + "/" + page + ".html"));
     }
 
     console.log("Using static server for production mode...");
