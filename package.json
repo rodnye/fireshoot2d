@@ -3,7 +3,7 @@
   "scripts": {
     "start": "NODE_ENV=production node serv/server.js",
     "test": "NODE_ENV=development node serv/server.js",
-    "build": "webpack --mode=production --node-env=production"
+    "build": "rm -r dist && webpack --mode=production --node-env=production"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
