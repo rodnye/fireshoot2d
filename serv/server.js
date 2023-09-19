@@ -70,7 +70,7 @@ const io = require("socket.io")(server, {
 require("./engine/socket.js")(io);
 
 // Start the server and listen on the specified port
-app.listen(config.PORT, () => {
+server.listen(config.PORT, () => {
     console.log("Running in port " + config.PORT);
 });
 
