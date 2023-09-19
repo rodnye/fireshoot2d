@@ -5,10 +5,16 @@ const config = require("../../config.js");
 const {Pj} = require(config.SERV + "/helpers/db.js");
 const uid = require(config.SERV + "/helpers/uid.js");
 let spos = config.START_POS;
+const Maps = require("./map.js");
 
 module.exports = async (io) => {
     const g = G(io);
+    
+    let maps = new Maps();
+    maps.load(config.DB + "/maps");
+    
     let players = new Players();
+
     g.on("connection" , async (socket) => { 
         const s = S(socket);
         if(!s.request.session || !s.request.session.passport || !s.request.session.passport.user) return s.disconnect();
@@ -21,9 +27,18 @@ module.exports = async (io) => {
             defaults: spos
           });
         let pj = _pj || created;
-        
+
+        s.on("get_map" , (data) => {
+            if(data.vhash && data.vhash.isArray() && maps.get(pj.m) && data.vhash.includes(maps.get(pj.m).vhash)) {
+                s.emit("get_map" , true);
+            } else s.emit("get_map" , maps.get(pj.m));
+        });
+
         let player = new Player(pj.user_id , pj.name , s , pj.x , pj.y , pj.a , pj.m);
-        players.add(player);
+        s.on("get_players" , (data) => {
+            players.add(player);
+        });
+        
         
     });
 

@@ -26,7 +26,7 @@ const PjModel = (DataTypes) => {
             type: DataTypes.STRING,
             default: "m_1",
             allowNull: false
-        },
+        }
     };
 };
 

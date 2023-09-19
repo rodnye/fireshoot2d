@@ -72,7 +72,7 @@ User.init(
  *********************/
 class Pj extends Model {
     getData() {
-        const rows = ["user_id", "name", "acclevel"];
+        const rows = ["user_id", "name"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
