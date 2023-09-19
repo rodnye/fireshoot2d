@@ -11,6 +11,7 @@ module.exports = async (io) => {
     let players = new Players();
     g.on("connection" , async (socket) => { 
         const s = S(socket);
+        if(!s.request.session || !s.request.session.passport || !s.request.session.passport.user) return s.disconnect();
         const user_id = s.request.session.passport.user;
         console.log("Your User ID is", user_id);
         spos.name = "pj_" + uid.num(5);
