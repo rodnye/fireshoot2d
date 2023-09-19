@@ -1,0 +1,21 @@
+
+.auth-btn {
+    display: flex;
+    align-items: center; 
+    
+    background: var(--bs-white); 
+    border-radius: .5rem;
+    width: 20rem;
+    padding: .1rem .3rem;
+    margin: .25rem;
+}
+
+.auth-btn__icon {
+    height: 1.5rem;
+    padding: 1rem;
+}
+
+.auth-btn__label {
+    font-size: 1.2rem;
+}
+

@@ -2,6 +2,8 @@
 
 html,
 body {
+    --bs-body-bg: var(--bs-gray-200);
+    
     margin: 0;
     padding: 0;
     
@@ -11,8 +13,18 @@ body {
     font-family: Helvetica, Sans-Serif;
     user-select: none;
     box-sizing: border-box;
+    
+    background: var(--bs-body-bg);
 }
 
 div {
     box-sizing: border-box;
+}
+
+.hover-btn {
+    transform: translateY(0);
+    transition: transform .2s;
+}
+.hover-btn:active {
+    transform: translateY(.25rem);
 }
