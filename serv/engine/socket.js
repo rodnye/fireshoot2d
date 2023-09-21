@@ -1,6 +1,7 @@
 const G = require("./socket/g.js");
 const S = require("./socket/s.js");
-const {Player , Players} = require("./player.js");
+const Player = require("./player.js");
+const World = require("./world.js");
 const config = require("../../config.js");
 const {Pj} = require(config.SERV + "/helpers/db.js");
 const uid = require(config.SERV + "/helpers/uid.js");
@@ -13,7 +14,7 @@ module.exports = async (io) => {
     let maps = new Maps();
     maps.load(config.DB + "/maps");
     
-    let players = new Players();
+    let world = new World();
 
     g.on("connection" , async (socket) => { 
         const s = S(socket);
@@ -24,23 +25,26 @@ module.exports = async (io) => {
         spos.name = "pj_" + uid.num(5);
         spos.user_id = user_id;
         //creating player if not exist in db and loading if exists
-        const [_pj, created] = await Pj.findOrCreate({
+        const [_pj, cpj] = await Pj.findOrCreate({
             where: { user_id: user_id },
             defaults: spos
           });
-        let pj = _pj || created;
+        let pj = _pj || cpj;
+        
+        //creating pj to onrun db
+        let player = new Player(pj.user_id , pj.name , s , pj.x , pj.y , pj.a , pj.m , pj.lvl , pj.xp);
+        player.config();
         
         //retrieving map data if user havent , returning true if user have the map updated
         s.on("get_map" , (data) => {
-            if(data.vhash && Array.isArray(data.vhash) && maps.get(pj.m) && data.vhash.includes(maps.get(pj.m).vhash)) {
+            if(data.vhash && data.vhash == maps.get(pj.m).vhash) {
                 s.emit("get_map" , true);
             } else s.emit("get_map" , maps.get(pj.m));
         });
 
         //retrieving players data
-        let player = new Player(pj.user_id , pj.name , s , pj.x , pj.y , pj.a , pj.m);
         s.on("get_players" , (data) => {
-            players.add(player);
+            world.addPlayer(player); //adding player to world
         });
         
         
@@ -48,7 +52,7 @@ module.exports = async (io) => {
 
     //Game Loop
 	setInterval(function(){
-        let pom = players.getPosByMap();
+        let pom = world.getPosByMap();
 		for(let m in pom) g.to(m).emit('pj_pos', pom[m]); //sending player position to every room
 	}, 30);
 }

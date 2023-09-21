@@ -1,16 +1,12 @@
 {
-    "name": "LeroyLeroy",
+    "name": "m_1",
+    "zone": "preparation_camp",
     "size": {
         "x": 100,
         "y": 100
     },
-    "terrain": [
-        {
-            "id": "g1",
-            "x": 10,
-            "y": 20,
-            "t": 1
-        }
-    ],
+    "tile_size": 32,
+    "default_terrain": "g_1",
+    "terrain": {},
     "vhash": "dj28Hs9289"
 }

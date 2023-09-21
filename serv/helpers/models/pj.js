@@ -26,6 +26,14 @@ const PjModel = (DataTypes) => {
             type: DataTypes.STRING,
             default: "m_1",
             allowNull: false
+        },
+        lvl: {
+            type: DataTypes.INTEGER,
+            default: 1
+        },
+        xp: {
+            type: DataTypes.INTEGER,
+            default: 0
         }
     };
 };
