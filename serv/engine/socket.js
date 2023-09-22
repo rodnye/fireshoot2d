@@ -52,7 +52,7 @@ module.exports = async (io) => {
 
     //Game Loop
 	setInterval(function(){
-        let pom = world.getPosByMap();
+        let pom = world.getDataByMap();
 		for(let m in pom) g.to(m).emit('pj_pos', pom[m]); //sending player position to every room
 	}, 30);
 }
