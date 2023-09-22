@@ -28,7 +28,7 @@ module.exports = async (io) => {
         let pj;
         try {
             const [_pj, cpj] = await Pj.findOrCreate({
-                where: { user_id: user_id },
+                where: { user_id },
                 defaults: spos
             });
             pj = _pj || cpj;
