@@ -55,6 +55,11 @@ module.exports = {
             "utils": cfg.SRC + "/utils",
             "styles": cfg.SRC + "/styles",
             "assets": cfg.SRC + "/assets",
+           
+            // programming in mobile apps 
+            "eruda": isProduction ?  
+                cfg.SRC + "/utils/__eruda-fake.js" : // remove eruda in production 
+                "eruda",
         },
         extensions: ["*", ".js", ".jsx"]
     },
