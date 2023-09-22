@@ -14,7 +14,7 @@ module.exports = async (io) => {
     let maps = new Maps();
     maps.load(config.DB + "/maps");
 
-    let world = new World();
+    let world = new World(g);
 
     g.on("connection", async (socket) => {
         const s = S(socket);
@@ -26,7 +26,7 @@ module.exports = async (io) => {
         spos.user_id = user_id;
         spos.lvl = 1;
         spos.xp = 0;
-        
+
         //creating player if not exist in db and loading if exists
         let pj;
         try {
@@ -46,7 +46,7 @@ module.exports = async (io) => {
                 s.emit("get_map", true);
             } else s.emit("get_map", maps.get(pj.m));
         });
-
+        
         //retrieving players data
         s.on("get_players", (data) => {
             world.addPlayer(player); //adding player to world
@@ -55,9 +55,5 @@ module.exports = async (io) => {
 
     });
 
-    //Game Loop
-    setInterval(function () {
-        let pom = world.getDataByMap();
-        for (let m in pom) g.to(m).emit('pj_pos', pom[m]); //sending player position to every room
-    }, 30);
+    world.loop(30); //world loop - set to 30fps
 }

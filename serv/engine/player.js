@@ -11,6 +11,7 @@ class Player {
         }
         this.equipment = {};
         this.stats = {};
+        this.status = {};
         this.lvl = lvl;
         this.xp = xp;
     }
@@ -21,8 +22,25 @@ class Player {
             pos: this.pos,
             equipment: this.equipment,
             stats: this.stats,
+            status: this.status,
             lvl: this.lvl,
             xp: this.xp
+        };
+    }
+
+    getBaseData(){
+        return {
+            name: this.name,
+            pos: this.pos,
+            status: this.status,
+            lvl: this.lvl
+        };
+    }
+
+    getPos() {
+        return {
+            name: this.name,
+            pos: this.pos
         };
     }
 
