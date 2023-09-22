@@ -24,6 +24,9 @@ module.exports = async (io) => {
         console.log("Your User ID is", user_id);
         spos.name = "pj_" + uid.num(5);
         spos.user_id = user_id;
+        spos.lvl = 1;
+        spos.xp = 0;
+        
         //creating player if not exist in db and loading if exists
         let pj;
         try {
@@ -33,7 +36,6 @@ module.exports = async (io) => {
             });
             pj = _pj || cpj;
         } catch (err) { console.log(err) }
-
         //creating pj to onrun db
         let player = new Player(pj.user_id, pj.name, s, pj.x, pj.y, pj.a, pj.m, pj.lvl, pj.xp);
         player.config();

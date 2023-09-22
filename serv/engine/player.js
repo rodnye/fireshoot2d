@@ -21,14 +21,14 @@ class Player {
             pos: this.pos,
             equipment: this.equipment,
             stats: this.stats,
-            lvl,
-            xp
+            lvl: this.lvl,
+            xp: this.xp
         };
     }
 
     async config() {
         const [eq, ceq] = await Equipment.findOrCreate({
-            where: { user_id: user_id }
+            where: { user_id: this.id }
         });
         let equipment = eq || ceq;
         this.equipment = {
