@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react"
 
 import createGameRenderer from "./gl/GameRenderer.js"
-import socket from "./socket/socket"
+import { SocketProvider } from "./socket/SocketContext"
 
 export default function GamePage () {
     const gameContainerRef = useRef(null);
@@ -15,11 +15,11 @@ export default function GamePage () {
     
     // Render
     return (
-        <div>
+        <SocketProvider>
             <div 
                 className="game-container" 
                 ref={gameContainerRef}
             />
-        </div>
+        </SocketProvider>
     )
 }
