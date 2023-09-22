@@ -28,6 +28,7 @@
     "babel-loader": "^9.1.2",
     "bootstrap": "^5.3.1",
     "css-loader": "^6.8.1",
+    "eruda": "^3.0.1",
     "html-webpack-plugin": "^5.5.1",
     "pixi.js": "^7.2.4",
     "postcss": "^8.4.24",
