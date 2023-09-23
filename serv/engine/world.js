@@ -16,30 +16,30 @@ class World {
         if(!this.maps[player.pos.m]) this.maps[player.pos.m] = {};
         player.s.join("global"); //joining global channel
         player.s.join("system"); //joining system channel
-        player.s.join(player.pos.m); //joining current area channel
-        player.s.emit("get_players" , this.maps[player.pos.m]);
+        player.joinMap(this.maps[player.pos.m]); //joining actual map
         this.maps[player.pos.m][player.name] = player.getBaseData();
-        player.s.to(player.pos.m).emit("new_pj", player.getBaseData()); //sending player info to all players in same area
         
+        
+        let changes = this.changes;
         //on move events
         player.s.on("move", (data) => {
-            if (!this.changes[player.pos.m]) this.changes[player.pos.m] = {};
-            if (!this.changes[player.pos.m][player.name]) this.changes[player.pos.m][player.name] = {};
-            this.changes[player.pos.m][player.name]["pos"] = data;
+            if (!changes[player.pos.m]) changes[player.pos.m] = {};
+            if (!changes[player.pos.m][player.name]) changes[player.pos.m][player.name] = {};
+            changes[player.pos.m][player.name]["pos"] = data;
             
         });
     }
 
     loop(fps) {
         //Game Loop
-        let changes = this.changes;
-
-        let g = this.g;
-        setInterval(function () {
+        setInterval(() => {
             //console.log(changes)
-            for (let m in changes) g.to(m).emit('changes', changes[m]); //sending players changes to area
+            for (let m in this.changes) {
+                this.g.to(m).emit('changes', this.changes[m]); //sending players changes to area
+                this.changes = {}; //restart the var
+            }
         }, 1000 / fps || 30);
-        delete this.changes;
+        
     }
 };
 

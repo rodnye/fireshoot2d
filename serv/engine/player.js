@@ -58,6 +58,17 @@ class Player {
         };
         this.s.emit("player_data", this.get());
     }
+
+    leaveMap(){
+        this.s.to(this.pos.m).emit("del_pj", this.name);
+        this.s.leave(this.pos.m)
+    }
+
+    joinMap(mapPlayers){
+        this.s.join(this.pos.m);
+        this.s.emit("get_players" , mapPlayers);
+        this.s.to(this.pos.m).emit("new_pj", this.getBaseData());
+    }
 }
 
 
