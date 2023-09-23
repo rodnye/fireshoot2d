@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import GamePage from './App'
 import 'styles/main.css'
 
+// Browser console
 import eruda from 'eruda'
 eruda.init();
 

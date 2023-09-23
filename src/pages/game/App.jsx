@@ -1,25 +1,26 @@
 
 import { useRef, useEffect } from "react"
 
-import createGameRenderer from "./gl/GameRenderer.js"
-import { SocketProvider } from "./socket/SocketContext"
+import GameRenderer from "./gl/GameRenderer"
+import { initSocket, getSocket } from "./socket/socket"
 
 export default function GamePage () {
-    const gameContainerRef = useRef(null);
     
-    // Mount game renderer
     useEffect(() => {
-        const {renderer, container, ticker} = createGameRenderer();
-        gameContainerRef.current.appendChild(renderer.view);
-    }, []);
+        initSocket();
+    }, [])
     
     // Render
     return (
-        <SocketProvider>
-            <div 
-                className="game-container" 
-                ref={gameContainerRef}
+        <div>
+            <GameRenderer
+                ratio={19/10}
+                height={300}
+                resolution={1}
+                
+                play={false}
             />
-        </SocketProvider>
+        </div>
     )
+    
 }
