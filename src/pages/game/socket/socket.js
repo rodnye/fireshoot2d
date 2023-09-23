@@ -67,8 +67,13 @@ export const initSocket = () => {
         //dibujarlo
     });
 
-    //cada cambio en el mapa o juador llega a este evento
-    socket.on("changes", (data) => {
+    //cuando sale del mapa un jugador
+    socket.on("del_pj" , (name) => {
+        //borrar player[name]
+    });
+
+    //cada cambio en los players del mapa llega a este evento
+    socket.on("pj_changes", (data) => {
         //TODO
     });
 

@@ -2,7 +2,7 @@ const config = require("../../config.js");
 const { Equipment } = require(config.SERV + "/helpers/db.js");
 
 class Player {
-    constructor(id, name, s, x, y, a, m, lvl, xp) {
+    constructor(id, name, s, x, y, a, m, lvl, xp, acclevel) {
         this.id = id;
         this.name = name;
         this.s = s;
@@ -14,6 +14,7 @@ class Player {
         this.status = {};
         this.lvl = lvl;
         this.xp = xp;
+        this.admin = (acclevel == 2 ? true : false);
     }
 
     get() {

@@ -2,7 +2,7 @@ class World {
     constructor(g) {
         this.players = {};
         this.maps = {};
-        this.changes = {};
+        this.pj_changes = {};
         this.g = g;
     }
 
@@ -20,23 +20,29 @@ class World {
         this.maps[player.pos.m][player.name] = player.getBaseData();
         
         
-        let changes = this.changes;
+        let pj_changes = this.pj_changes;
         //on move events
         player.s.on("move", (data) => {
-            if (!changes[player.pos.m]) changes[player.pos.m] = {};
-            if (!changes[player.pos.m][player.name]) changes[player.pos.m][player.name] = {};
-            changes[player.pos.m][player.name]["pos"] = data;
+            if (!pj_changes[player.pos.m]) pj_changes[player.pos.m] = {};
+            if (!pj_changes[player.pos.m][player.name]) pj_changes[player.pos.m][player.name] = {};
+            pj_changes[player.pos.m][player.name]["pos"] = data;
             
+        });
+
+        player.s.on("disconnect" , ()=> {
+            player.leaveMap();
+            delete this.maps[player.pos.m][player.name];
+            delete this.players[name];
         });
     }
 
     loop(fps) {
         //Game Loop
         setInterval(() => {
-            //console.log(changes)
-            for (let m in this.changes) {
-                this.g.to(m).emit('changes', this.changes[m]); //sending players changes to area
-                this.changes = {}; //restart the var
+            //console.log(pj_changes)
+            for (let m in this.pj_changes) {
+                this.g.to(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
+                this.pj_changes = {}; //restart the var
             }
         }, 1000 / fps || 30);
         

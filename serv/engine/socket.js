@@ -37,7 +37,7 @@ module.exports = async (io) => {
             pj = _pj || cpj;
         } catch (err) { console.log(err) }
         //creating pj to onrun db
-        let player = new Player(pj.user_id, pj.name, s, pj.x, pj.y, pj.a, pj.m, pj.lvl, pj.xp);
+        let player = new Player(pj.user_id, pj.name, s, pj.x, pj.y, pj.a, pj.m, pj.lvl, pj.xp , pj.acclevel);
         player.config();
 
         //retrieving map data if user havent , returning true if user have the map updated
