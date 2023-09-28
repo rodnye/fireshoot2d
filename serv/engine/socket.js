@@ -2,25 +2,26 @@ const G = require("./socket/g.js");
 const S = require("./socket/s.js");
 const Player = require("./player.js");
 const World = require("./world.js");
+const Maps = require("./map.js");
 const config = require("../../config.js");
 const { Pj } = require(config.SERV + "/helpers/db.js");
 const uid = require(config.SERV + "/helpers/uid.js");
 let spos = config.START_POS;
-const Maps = require("./map.js");
+const adminPanel = require("./admin/admin-panel.js");
 
 module.exports = async (io) => {
     const g = G(io);
-
-    let maps = new Maps();
-    maps.load(config.DB + "/maps");
-
+    //loading maps
+    let maps = new Maps(config.DB + "/maps");
+    maps.load();
+    //generating world
     let world = new World(g);
 
     g.on("connection", async (socket) => {
         const s = S(socket);
         //checking if user is on session storage , if not reject
-        if (!s.request.session || !s.request.session.passport || !s.request.session.passport.user) return s.disconnect();
-        const user_id = /*"pkZI01f3" ||*/  s.request.session.passport.user;
+        //if (!s.request.session || !s.request.session.passport || !s.request.session.passport.user) return s.disconnect();
+        const user_id = "pkZI01f3" ||  s.request.session.passport.user;
         console.log("Your User ID is", user_id);
         spos.name = "pj_" + uid.num(5);
         spos.user_id = user_id;
@@ -39,6 +40,7 @@ module.exports = async (io) => {
         //creating pj to onrun db
         let player = new Player(pj.user_id, pj.name, s, pj.x, pj.y, pj.a, pj.m, pj.lvl, pj.xp , pj.acclevel);
         player.config();
+        player.sendPlayerData();
 
         //retrieving map data if user havent , returning true if user have the map updated
         s.on("get_map", (data) => {
@@ -52,6 +54,8 @@ module.exports = async (io) => {
             world.addPlayer(player); //adding player to world
         });
 
+        //if player is admin send admin panel
+        if(player.admin) adminPanel(player, world, maps);
 
     });
 

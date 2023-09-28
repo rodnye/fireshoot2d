@@ -18,6 +18,8 @@ class World {
         player.s.join("system"); //joining system channel
         player.joinMap(this.maps[player.pos.m]); //joining actual map
         this.maps[player.pos.m][player.name] = player.getBaseData();
+
+
         
         
         let pj_changes = this.pj_changes;

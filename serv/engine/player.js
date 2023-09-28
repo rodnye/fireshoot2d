@@ -57,12 +57,22 @@ class Player {
             pweapon: equipment.pweapon,
             sweapon: equipment.sweapon
         };
+    }
+
+    sendPlayerData() {
         this.s.emit("player_data", this.get());
     }
 
     leaveMap(){
         this.s.to(this.pos.m).emit("del_pj", this.name);
         this.s.leave(this.pos.m)
+    }
+
+    changeMap(emap , mapPlayers) {
+        this.leaveMap();
+        this.pos = emap;
+        this.config();
+        this.joinMap(mapPlayers);
     }
 
     joinMap(mapPlayers){

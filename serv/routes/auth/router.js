@@ -12,7 +12,11 @@ router.get('/google/callback',
             status: true,
             data: jwt.generate(req.user.user_id)
         });*/
-        return res.redirect('/game');
+        if (req.header('user-agent').indexOf('Mobile') != -1) {
+            return res.redirect('/game');
+        } else {
+            return res.redirect('/unity-game');
+        }
     });
 
 router.use('/google',
@@ -33,7 +37,12 @@ router.get('/facebook/callback',
             status: true,
             data: jwt.generate(req.user.user_id)
         });*/
-        return res.redirect('/game');
+        if (req.header('user-agent').indexOf('Mobile') != -1) {
+            return res.redirect('/game');
+        } else {
+            return res.redirect('/unity-game');
+        }
+
     });
 
 router.use('/facebook',

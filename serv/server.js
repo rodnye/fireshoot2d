@@ -117,3 +117,9 @@ else {
 
     console.log("Using static server for production mode...");
 }
+
+app.use(express.static(config.DIR + "/unity"));
+
+app.get("/unity-game", (req, res) => {
+    res.sendFile(config.DIR + "/unity/index.html");
+});
