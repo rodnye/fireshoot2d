@@ -2,12 +2,12 @@ const config = require("../../config.js");
 const { Equipment } = require(config.SERV + "/helpers/db.js");
 
 class Player {
-    constructor(id, name, s, x, y, a, m, lvl, xp, acclevel) {
+    constructor(id, name, s, x, y, z , a, m, lvl, xp, acclevel) {
         this.id = id;
         this.name = name;
         this.s = s;
         this.pos = {
-            x, y, a, m
+            x, y, z,a, m
         }
         this.equipment = {};
         this.stats = {};

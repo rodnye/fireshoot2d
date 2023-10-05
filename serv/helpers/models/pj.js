@@ -18,6 +18,10 @@ const PjModel = (DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        z: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         a: {
             type: DataTypes.INTEGER,
             allowNull: false

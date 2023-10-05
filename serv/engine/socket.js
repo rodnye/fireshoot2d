@@ -20,8 +20,9 @@ module.exports = async (io) => {
     g.on("connection", async (socket) => {
         const s = S(socket);
         //checking if user is on session storage , if not reject
-        //if (!s.request.session || !s.request.session.passport || !s.request.session.passport.user) return s.disconnect();
-        const user_id = "pkZI01f3" ||  s.request.session.passport.user;
+        let user_id = "pkZI01f3"; 
+        if (!s.request.session || !s.request.session.passport || !s.request.session.passport.user) user_id = "pkZI01f3";//return s.disconnect();
+        else user_id = s.request.session.passport.user;
         console.log("Your User ID is", user_id);
         spos.name = "pj_" + uid.num(5);
         spos.user_id = user_id;
@@ -38,7 +39,7 @@ module.exports = async (io) => {
             pj = _pj || cpj;
         } catch (err) { console.log(err) }
         //creating pj to onrun db
-        let player = new Player(pj.user_id, pj.name, s, pj.x, pj.y, pj.a, pj.m, pj.lvl, pj.xp , pj.acclevel);
+        let player = new Player(pj.user_id, pj.name, s, pj.x, pj.y, pj.z , pj.a, pj.m, pj.lvl, pj.xp , pj.acclevel);
         player.config();
         player.sendPlayerData();
 

@@ -3,9 +3,10 @@
     "zone": "preparation_camp",
     "size": {
         "x": 100,
-        "y": 100
+        "y": 20,
+        "z": 100
     },
-    "tile_size": 32,
+    "gravity": 1,
     "default_terrain": "g_1",
     "terrain": {},
     "vhash": "dj28Hs9289"

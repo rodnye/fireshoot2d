@@ -17,8 +17,9 @@ module.exports = {
         expire: "24h"
     },
     START_POS: {
-        x: 50,
-        y: 50,
+        x: 25,
+        y: 2,
+        z: 25,
         a: 0,
         m: "m_1"
     }

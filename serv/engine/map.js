@@ -29,7 +29,6 @@ class Maps {
             name,
             zone,
             size,
-            tile_size,
             default_terrain,
             terrain: {},
             vhash: uid.alphanum(10)
