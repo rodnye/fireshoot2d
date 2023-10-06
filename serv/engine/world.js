@@ -25,9 +25,20 @@ class World {
         let pj_changes = this.pj_changes;
         //on move events
         player.s.on("move", (data) => {
-            if (!pj_changes[player.pos.m]) pj_changes[player.pos.m] = {};
-            if (!pj_changes[player.pos.m][player.name]) pj_changes[player.pos.m][player.name] = {};
-            pj_changes[player.pos.m][player.name]["pos"] = data;
+            //if(data.y < 0) data.y = 0;
+            if (!this.pj_changes[player.pos.m]) this.pj_changes[player.pos.m] = {};
+            if (!this.pj_changes[player.pos.m][player.name]) this.pj_changes[player.pos.m][player.name] = {};
+            this.pj_changes[player.pos.m][player.name]["pos"] = data;
+            //console.log(this.pj_changes.m_1);
+            
+        });
+        //on angle  change
+        player.s.on("ang", (data) => {
+            //if(data.y < 0) data.y = 0;
+            if (!this.pj_changes[player.pos.m]) this.pj_changes[player.pos.m] = {};
+            if (!this.pj_changes[player.pos.m][player.name]) this.pj_changes[player.pos.m][player.name] = {};
+            this.pj_changes[player.pos.m][player.name]["a"] = data.a;
+            //console.log(this.pj_changes.m_1);
             
         });
 
@@ -41,11 +52,11 @@ class World {
     loop(fps) {
         //Game Loop
         setInterval(() => {
-            //console.log(pj_changes)
+            
             for (let m in this.pj_changes) {
                 this.g.to(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
-                this.pj_changes = {}; //restart the var
             }
+            this.pj_changes = {}; //restart the var
         }, 1000 / fps || 30);
         
     }

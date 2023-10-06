@@ -20,9 +20,9 @@ module.exports = async (io) => {
     g.on("connection", async (socket) => {
         const s = S(socket);
         //checking if user is on session storage , if not reject
-        let user_id = "pkZI01f3"; 
+        let user_id = "xgkHNGNM"; 
         if (!s.request.session || !s.request.session.passport || !s.request.session.passport.user) user_id = "pkZI01f3";//return s.disconnect();
-        else user_id = s.request.session.passport.user;
+        if(s.handshake.query.token) user_id = s.handshake.query.token;
         console.log("Your User ID is", user_id);
         spos.name = "pj_" + uid.num(5);
         spos.user_id = user_id;
