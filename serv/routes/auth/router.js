@@ -2,6 +2,9 @@ const router = require("express").Router();
 const passport = require("passport");
 const config = require("../../../config.js");
 const jwt = require(config.HELPERS + "/jwt.js");
+const login = require(config.SERV + "/middlewares/login.js");
+
+router.post("/login" , login);
 
 router.get('/google/callback',
     passport.authenticate('google', {

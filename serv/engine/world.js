@@ -18,14 +18,13 @@ class World {
         player.s.join("system"); //joining system channel
         player.joinMap(this.maps[player.pos.m]); //joining actual map
         this.maps[player.pos.m][player.name] = player.getBaseData();
-
-
         
         
         let pj_changes = this.pj_changes;
         //on move events
         player.s.on("move", (data) => {
             //if(data.y < 0) data.y = 0;
+            console.log(data);
             if (!this.pj_changes[player.pos.m]) this.pj_changes[player.pos.m] = {};
             if (!this.pj_changes[player.pos.m][player.name]) this.pj_changes[player.pos.m][player.name] = {};
             this.pj_changes[player.pos.m][player.name]["pos"] = data;
