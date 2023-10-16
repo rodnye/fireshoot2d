@@ -90,14 +90,13 @@ module.exports = async (io) => {
 
         //retrieving map data if user havent , returning true if user have the map updated
         s.on("get_map", (data) => {
-            if (data.vhash && data.vhash == maps.get(pj.m).vhash) {
+            if (data == maps.get(pj.m).vhash) {
                 s.emit("get_map", true);
             } else s.emit("get_map", maps.get(pj.m));
         });
 
         //retrieving players data
         s.on("get_players", (data) => {
-            console.log(data);
             world.addPlayer(player); //adding player to world
         });
 

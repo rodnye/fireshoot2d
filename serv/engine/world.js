@@ -1,3 +1,5 @@
+const socket = require("./socket");
+
 class World {
     constructor(g) {
         this.players = {};
@@ -19,26 +21,27 @@ class World {
         player.joinMap(this.maps[player.pos.m]); //joining actual map
         this.maps[player.pos.m][player.name] = player.getBaseData();
         
-        
-        let pj_changes = this.pj_changes;
         //on move events
         player.s.on("move", (data) => {
-            //if(data.y < 0) data.y = 0;
-            console.log(data);
             if (!this.pj_changes[player.pos.m]) this.pj_changes[player.pos.m] = {};
             if (!this.pj_changes[player.pos.m][player.name]) this.pj_changes[player.pos.m][player.name] = {};
             this.pj_changes[player.pos.m][player.name]["pos"] = data;
-            //console.log(this.pj_changes.m_1);
-            
+            if(data.a) {
+                this.pj_changes[player.pos.m][player.name]["a"] = data.a;
+                player.pos.a = data.a;
+            }
+            player.pos.x = data.x;
+            player.pos.y = data.y;
+            player.pos.z = data.z;
         });
+
         //on angle  change
-        player.s.on("ang", (data) => {
-            //if(data.y < 0) data.y = 0;
+        player.s.on("angle", (data) => {
             if (!this.pj_changes[player.pos.m]) this.pj_changes[player.pos.m] = {};
             if (!this.pj_changes[player.pos.m][player.name]) this.pj_changes[player.pos.m][player.name] = {};
-            this.pj_changes[player.pos.m][player.name]["a"] = data.a;
-            //console.log(this.pj_changes.m_1);
-            
+            this.pj_changes[player.pos.m][player.name]["a"] = data;
+
+            player.pos.a = data;
         });
 
         player.s.on("disconnect" , ()=> {
@@ -53,8 +56,9 @@ class World {
         setInterval(() => {
             
             for (let m in this.pj_changes) {
-                this.g.to(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
+                this.g.of("/world").in(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
             }
+            //if(JSON.stringify(this.pj_changes) != "{}") console.log(this.pj_changes);
             this.pj_changes = {}; //restart the var
         }, 1000 / fps || 30);
         
