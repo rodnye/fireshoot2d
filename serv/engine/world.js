@@ -1,11 +1,11 @@
 const socket = require("./socket");
 
 class World {
-    constructor(g) {
+    constructor(w) {
         this.players = {};
         this.maps = {};
         this.pj_changes = {};
-        this.g = g;
+        this.w = w;
     }
 
     getDataByMap() {
@@ -50,13 +50,21 @@ class World {
             delete this.players[name];
         });
     }
+    
+    emitAll(event, message){
+      this.w.emit(event, message);
+    };
+    
+    emitToRoom(room , event , message){
+      this.w.in(room).emit(event , message);
+    };
 
     loop(fps) {
         //Game Loop
         setInterval(() => {
             
             for (let m in this.pj_changes) {
-                this.g.of("/world").in(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
+                this.g.in(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
             }
             //if(JSON.stringify(this.pj_changes) != "{}") console.log(this.pj_changes);
             this.pj_changes = {}; //restart the var

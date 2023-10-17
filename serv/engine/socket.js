@@ -49,8 +49,8 @@ module.exports = async (io) => {
             }
         });
     });
-
-    g.of("/world").on("connection", async (socket) => {
+    const w = g.of("/world");
+    w.on("connection", async (socket) => {
         const s = S(socket);
         //checking if user is on session storage , if not reject
         let user_id = "xgkHNGNM";
