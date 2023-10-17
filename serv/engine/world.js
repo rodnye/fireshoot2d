@@ -64,7 +64,7 @@ class World {
         setInterval(() => {
             
             for (let m in this.pj_changes) {
-                this.g.in(m).emit('pj_changes', this.pj_changes[m]); //sending players pj_changes to area
+                this.emitToRoom(m, 'pj_changes', this.pj_changes[m]); //sending players pj_changes to area
             }
             //if(JSON.stringify(this.pj_changes) != "{}") console.log(this.pj_changes);
             this.pj_changes = {}; //restart the var
